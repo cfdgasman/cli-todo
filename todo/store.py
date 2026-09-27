@@ -51,6 +51,11 @@ class TodoStore:
         task.done = True
         return task
 
+    def clear_done(self) -> int:
+        before = len(self.tasks)
+        self.tasks = [t for t in self.tasks if not t.done]
+        return before - len(self.tasks)
+
     def remove(self, task_id: int) -> Task:
         task = self.get(task_id)
         self.tasks.remove(task)

@@ -18,6 +18,7 @@ todo add finish the report
 todo list
 todo done 1
 todo rm 2
+todo clear        # remove all completed tasks
 ```
 
 ```
