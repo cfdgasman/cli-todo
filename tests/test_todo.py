@@ -53,3 +53,13 @@ def test_cli_unknown_id(tmp_path, capsys):
     f = str(tmp_path / "todo.json")
     assert main(["--file", f, "done", "42"]) == 1
     assert "No task with id 42" in capsys.readouterr().err
+
+
+def test_clear_done(tmp_path, capsys):
+    f = str(tmp_path / "todo.json")
+    main(["--file", f, "add", "a"])
+    main(["--file", f, "add", "b"])
+    main(["--file", f, "done", "1"])
+    assert main(["--file", f, "clear"]) == 0
+    assert "Cleared 1 completed task(s)" in capsys.readouterr().out
+    assert [t.title for t in TodoStore(tmp_path / "todo.json").tasks] == ["b"]
