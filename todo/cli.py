@@ -33,6 +33,8 @@ def build_parser() -> argparse.ArgumentParser:
     rm = sub.add_parser("rm", help="remove a task")
     rm.add_argument("id", type=int)
 
+    sub.add_parser("clear", help="remove all completed tasks")
+
     return parser
 
 
@@ -59,6 +61,10 @@ def main(argv: list[str] | None = None) -> int:
             task = store.remove(args.id)
             store.save()
             print(f"Removed #{task.id}: {task.title}")
+        elif args.command == "clear":
+            count = store.clear_done()
+            store.save()
+            print(f"Cleared {count} completed task(s)")
     except (KeyError, ValueError) as err:
         print(f"error: {err.args[0]}", file=sys.stderr)
         return 1
